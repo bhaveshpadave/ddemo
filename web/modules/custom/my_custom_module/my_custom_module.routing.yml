@@ -1,0 +1,15 @@
+my_custom_module.simplecontent:
+  path: '/mycustompath'
+  defaults:
+    _title: 'My Custom Module'
+    _controller: '\Drupal\my_custom_module\Controller\FirstController::simpleContent'
+  requirements:
+    _permission: 'access content'
+
+my_custom_module.slugvariable:
+  path: '/mycustompath/{name1}/{name2}'
+  defaults:
+   _title: 'Greetings!'
+   _controller: '\Drupal\my_custom_module\Controller\FirstController::slugVariable'
+  requirements:
+    _permission: 'access content'

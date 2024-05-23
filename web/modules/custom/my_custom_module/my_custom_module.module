@@ -1,0 +1,27 @@
+<?php
+use Drupal\Core\Render\Element\Submit;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
+
+/**
+ * @file
+ * This file demonstrates usage of hooks
+ */
+
+/**
+ * Implements hook_cron
+ */
+
+ function my_custom_module_cron() {
+   \Drupal::messenger()->addMessage(t("Hi from hook cron"));
+ }
+
+ /**
+  * Implements hook_form_alter
+  */
+ function my_custom_module_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+   \Drupal::messenger()->addMessage(t("Form @id:", ['@id' => $form_id]));
+    if ($form_id == 'node_article_edit_form') {
+      $form['actions']['submit']['#value'] = t('Save awesome article');
+    }
+ }
