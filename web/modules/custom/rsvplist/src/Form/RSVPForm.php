@@ -8,6 +8,7 @@
  namespace Drupal\rsvplist\Form;
 
  use Drupal\Core\Form\FormBase;
+ use Drupal\Core\Form\FormStateInterface;
 
  class RSVPForm extends FormBase {
     /**
@@ -20,7 +21,7 @@
     /**
      * {@inheritdoc}
      */
-    public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state){
+    public function buildForm(array $form, FormStateInterface $form_state){
         //Attempt to get fully loaded node object from the viewed page
         $node = \Drupal::routeMatch() -> getParameter('node');
         
@@ -52,13 +53,63 @@
 
         return $form;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+
+     public function validateForm(array &$form, FormStateInterface $form_state) {
+        $submitted_email = $form_state->getValue('email');
+        if (!(\Drupal::service('email.validator')->isValid($submitted_email))) {
+            $form_state->setErrorByName('email',
+            $this->t('%value is not valid email, please enter a valid email address.',
+            ['%value' => $submitted_email]));
+        }
+    }
     
     /**
      * {@inheritdoc}
      */
-    public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
-        $submitted_email = $form_state->getValue('email');
-        $this->messenger()->addMessage(t('This form is form is your email is @email',
-        ['@email' => $submitted_email]));
+    public function submitForm(array &$form, FormStateInterface $form_state) {
+        // $submitted_email = $form_state->getValue('email');
+        // $this->messenger()->addMessage(t('This is RSVP form and your email is @email',
+        // ['@email' => $submitted_email]));
+        
+        try {
+            
+            //Get current user's id
+            $uid = \Drupal::currentUser()->id();
+
+            //Obtain values from form
+            $nid = $form_state->getValue('nid');  
+            $mail = $form_state->getValue('email');
+
+            //Cuurent timestamp
+            $created = \Drupal::time()->getRequestTime();
+
+            //Build query builder with object $query
+            $query = \Drupal::database()->insert('rsvplist');
+            $query->fields([
+                'uid',
+                'nid',
+                'mail',
+                'created',
+            ]);
+
+            $query->values([
+                $uid,
+                $nid,
+                $mail,
+                $created,
+            ]);
+
+            $query->execute();
+
+            \Drupal::messenger()->addMessage(t('Thank you for RSVP, you are on the list of event'));
+            
+        } catch (\Exception $e) {
+
+            \Drupal::messenger()->addError(t('Unable to save RSVP due to database error'));
+        }
     }
  }
