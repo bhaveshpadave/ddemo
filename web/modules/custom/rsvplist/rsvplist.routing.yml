@@ -1,4 +1,4 @@
-rsvplist.rsvplistformdemo
+rsvplist.rsvplistformdemo:
   path: '/rsvplistdemo'
   defaults:
     _title: 'RSVP to this event'
