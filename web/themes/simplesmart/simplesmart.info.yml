@@ -1,0 +1,17 @@
+name: 'Simple smart (Stark)'
+type: theme
+description: 'Simple smart theme for basic themeing'
+core_version_requirement: ^9|| ^10
+core: 8.x
+base theme: 'stark'
+screenshot: 'screenshot.png'
+regions:
+  header: 'Header'
+  simple_navigation: 'Navigation'
+  content: 'Content'
+  footer: 'Footer'
+  page_top: 'Page Top'
+  page_bottom: 'Page Bottom'
+libraries:
+  - simplesmart/global-css
+  - simplesmart/madimione
