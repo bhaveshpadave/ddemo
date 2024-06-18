@@ -1,5 +1,5 @@
 my_custom_module.simplecontentpage:
-  title: content page link
+  title: Content page
   description: Link to Simple content page
   route_name: my_custom_module.simplecontent
   weight: 10

@@ -1,3 +1,21 @@
 .layout-content {
     margin: 0 20% 0 20%;
 }
+
+.main-menu {
+    display: flex;
+    list-style: none;
+}
+
+.main-menu-item {
+    margin-right: 1rem;
+}
+
+a > span > .field--name-title, .field--type-string, .field--label-hidden {
+    text-decoration: line-through !important;
+}
+
+.field--name-title {
+    color: red !important;
+    text-decoration: none !important;
+}
